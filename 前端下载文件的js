@@ -25,6 +25,7 @@
                     console.log(error);
                 });
 
+                //后端接口返回Stream（Abp框架 AppService接口添加 [Produces("application/octet-stream")]）
                 axios({
                     method:'get',
                     url:'http://localhost:8091/api/app/test/getFile',
