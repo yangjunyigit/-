@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            function Test()
+            {
+                // 为给定 ID 的 user 创建请求
+                axios.get('http://localhost:8091/api/app/test/getEnumText')
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            }
+            function Download()
+            {
+                // 为给定 ID 的 user 创建请求
+                axios.get('http://localhost:8091/api/app/test/getFile')
+                .then(function (response) {
+                    // response.Data;
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+                axios({
+                    method:'get',
+                    url:'http://localhost:8091/api/app/test/getFile',
+                    responseType:'arraybuffer'//此类型非常重要,否则excel会出现乱码；
+                })
+                .then(function(response) {
+                    var blob = new Blob([response.data], {type: "application/vnd.ms-excel"});
+                    const link = document.createElement("a")
+                    link.href = URL.createObjectURL(blob)
+                    link.download = "派工单导出模板.xls" // 这里填保存成的文件名
+                    link.click()
+                    URL.revokeObjectURL(link.href)
+                    // let fs=require("fs");
+                    // response.data.pipe(fs.createWriteStream('test.txt'))                    
+                });
+            }
+        </script>
+    </head>
+    <body>
+        <button onclick="Test()">测试</button>
+        <button onclick="Download()">下载</button>
+    </body>
+</html>
